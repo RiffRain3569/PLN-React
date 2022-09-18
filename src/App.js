@@ -1,23 +1,29 @@
 import logo from './logo.svg';
-import './App.css';
+import { Button, Form, Row } from 'react-bootstrap';
+import { signIn } from './apis/dhLottery/tmp';
+import { useState } from 'react';
 
 function App() {
+
+  const [curUserId, setUserId] = useState('');
+  const [curPassword, setPassword] = useState('');
+
+  const handleLogin = async() => {
+    let response = await signIn({userId: curUserId, password: curPassword});
+    console.log(response)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Row>
+        <Form.Control type='text' onKeyUp={(e) => setUserId(e.target.value)}/>
+      </Row>
+      <Row>
+        <Form.Control type='password' onKeyUp={(e) => setPassword(e.target.value)}/>
+      </Row>
+      <Row>
+        <Button variant="primary" onClick={handleLogin}>로그인</Button>
+      </Row>
+
     </div>
   );
 }
